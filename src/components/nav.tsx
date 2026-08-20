@@ -1,13 +1,32 @@
 
-interface NavProps {
-  onSearch: (query: string) => void;
+
+import { Link } from "react-router-dom";
+import type { Product } from "../pages/home";
+
+interface PropType {
+  products?: Product[];
+  setProducts?: React.Dispatch<React.SetStateAction<Product[]>>;
 }
 
-export default function Nav({ onSearch }: NavProps) {
+export default function Nav({ products, setProducts }: PropType) {
+ 
+  const filterByTitle = (search: string) => {
+    if (!setProducts) return;
+
+    const filterProducts = search
+      ? products?.filter((item) =>
+          item.title.toLowerCase().includes(search.toLowerCase())
+        )
+      : products;
+
+    setProducts(filterProducts || []);
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/80 px-6 py-3.5 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
 
+        {/* Brand */}
         <div className="flex items-center gap-x-2.5 cursor-pointer group">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
             <span className="text-white font-black text-xl tracking-tighter">K</span>
@@ -17,42 +36,47 @@ export default function Nav({ onSearch }: NavProps) {
           </h1>
         </div>
 
-       
-        <form className="flex-1 max-w-md mx-4" onSubmit={(e) => e.preventDefault()}>   
-          <label htmlFor="search" className="sr-only">Search</label>
-          <div className="relative group">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-zinc-500 group-focus-within:text-emerald-400 transition-colors">
-              <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
-              </svg>
-            </div>
-       
-            <input 
-              type="search" 
-              id="search" 
-              onChange={(event) => onSearch(event.target.value)}
-              className="block w-full py-2 ps-10 pe-20 bg-zinc-900/90 border border-zinc-800 text-zinc-100 text-sm rounded-xl focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 placeholder:text-zinc-500 transition-all duration-200" 
-              placeholder="Search products..." 
-            />
-            <button 
-              type="submit" 
-              className="absolute end-1.5 top-1/2 -translate-y-1/2 text-black bg-emerald-400 hover:bg-emerald-300 font-semibold rounded-lg text-xs px-3 py-1.5 transition-all duration-200 active:scale-95 shadow-sm"
-            >
-              Search
-            </button>
-          </div>
-        </form>
+        {products && (
+ 
+  <div className="flex-1 max-w-md mx-4">   
+    <label htmlFor="search" className="sr-only">Search</label>
+    <div className="relative group">
+      <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-zinc-500 group-focus-within:text-emerald-400 transition-colors">
+        <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+        </svg>
+      </div>
 
+      <input 
+        type="search" 
+        id="search" 
+        onChange={(event) => filterByTitle(event.target.value)}
+        className="block w-full py-2 ps-10 pe-20 bg-zinc-900/90 border border-zinc-800 text-zinc-100 text-sm rounded-xl focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 placeholder:text-zinc-500 transition-all duration-200" 
+        placeholder="Search products..." 
+      />
+      
+     
+      <button 
+        type="button" 
+        className="absolute end-1.5 top-1/2 -translate-y-1/2 text-black bg-emerald-400 hover:bg-emerald-300 font-semibold rounded-lg text-xs px-3 py-1.5 transition-all duration-200 active:scale-95 shadow-sm"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+)}
+         
+     
         <div className="flex items-center gap-x-1">
-          <button className="text-zinc-300 hover:text-white hover:bg-zinc-900/80 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200">
+          <Link to="/" className="text-zinc-300 hover:text-white hover:bg-zinc-900/80 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200">
             Home
-          </button>
-          <button className="text-zinc-300 hover:text-white hover:bg-zinc-900/80 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200">
+          </Link>
+          <Link to="/profile" className="text-zinc-300 hover:text-white hover:bg-zinc-900/80 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200">
             Profile
-          </button>
-          <button className="text-zinc-300 hover:text-white hover:bg-zinc-900/80 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200">
+          </Link>
+          <Link to="/aboutus" className="text-zinc-300 hover:text-white hover:bg-zinc-900/80 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200">
             About Us
-          </button>
+          </Link>
         </div>
 
       </div>
