@@ -1,78 +1,34 @@
-
-import { useEffect, useState } from "react";
 import Nav from "../components/nav";
-import { useFavorite } from "../providers/favouriteProvider";
 import { useCart } from "../providers/cartProvider";
+import { useFavorite } from "../providers/favouriteProvider";
 
 
-export interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  thumbnail: string;
-}
-
-export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  
+export default function Favorites() {
+  const { favorites, toggleFavorite } = useFavorite();
   const { addToCart } = useCart();
-  const { toggleFavorite, isFavorite } = useFavorite();
-
-  const fetchProductsData = async () => {
-    try {
-      const res = await fetch("https://dummyjson.com/products");
-      const data = await res.json();
-      setProducts(data?.products);
-      setFilteredProducts(data?.products);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  //[] .. Run Once Only
-  useEffect(() => {
-    fetchProductsData();
-  }, []);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <Nav products={products} setProducts={setFilteredProducts} />
-
+      <Nav />
       <main className="container mx-auto px-4 py-8 max-w-7xl">
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-32 text-center">
-            <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
-            <p className="text-zinc-400 font-medium text-sm mt-4">
-              Loading products...
-            </p>
-          </div>
+        <h1 className="text-2xl font-bold mb-6">Favorite Items</h1>
+
+        {favorites.length === 0 ? (
+          <p className="text-zinc-400">No favorite items </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {filteredProducts.map((product) => (
+            {favorites.map((product) => (
               <div
                 key={product.id}
                 className="group relative bg-zinc-900/80 border border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-700 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="relative overflow-hidden bg-zinc-900 aspect-[4/3] p-4 flex items-center justify-center">
-                  {/* fav*/}
                   <button
                     onClick={() => toggleFavorite(product)}
-                    className="absolute top-3 right-3 z-10 p-2 rounded-full bg-zinc-950/60 border border-zinc-800 text-zinc-400 hover:text-red-500 transition-all duration-200"
+                    className="absolute top-3 right-3 z-10 p-2 rounded-full bg-zinc-950/60 border border-zinc-800 text-red-500 hover:text-zinc-400 transition-all duration-200"
                   >
                     <svg
-                      className={`w-4 h-4 ${
-                        isFavorite(product.id)
-                          ? "fill-red-500 stroke-red-500"
-                          : "fill-none stroke-current"
-                      }`}
+                      className="w-4 h-4 fill-red-500 stroke-red-500"
                       viewBox="0 0 24 24"
                     >
                       <path
