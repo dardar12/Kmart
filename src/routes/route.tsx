@@ -5,7 +5,8 @@ import Profile from "../pages/profile";
 import Cart from "../pages/cart";
 import ProductDetail from "../pages/productDetails";
 import Favorites from "../pages/favourite";
-import AboutUs from "../pages/aboutus";
+import AboutUs from "../pages/aboutUs";
+
 
 
 const router = createBrowserRouter([
