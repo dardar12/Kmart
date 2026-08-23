@@ -1,32 +1,26 @@
-# React + TypeScript + Vite
+# E-Commerce Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern, responsive E-commerce web application built with React, TypeScript, and Tailwind CSS. Features dynamic product fetching from DummyJSON API, clean architecture, dark/light theme management via React Context API, and stateful shopping features.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Dynamic Data Fetching:** Integrated with DummyJSON API to display real-time product catalogs, categories, and details.
+- **Theme Switcher:** Global Dark and Light mode toggle powered by React Context API.
+- **Interactive Navigation:** Dedicated routes and layouts for Home, Profile, About Us, Favorites, and Cart.
+- **Shopping Cart & Wishlist:** Fully functional Add to Cart and Add to Favorite operations managed using `useState` and `useEffect`.
+- **Clean Architecture:** Modular folder structure separating components, pages, context, and state management logic.
+- **Responsive Design:** Styled with Tailwind CSS for mobile, tablet, and desktop viewports.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework:** React + Vite
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **API Integration:** DummyJSON REST API
+- **State & Context:** React Hooks (`useState`, `useEffect`, `useContext`)
 
-## Expanding the Oxlint configuration
+## 📦 Getting Started
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/dardar12/React_Calculator.git](https://github.com/dardar12/React_Calculator.git)
