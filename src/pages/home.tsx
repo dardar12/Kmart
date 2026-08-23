@@ -14,6 +14,7 @@ export interface Product {
   rating: number;
   stock: number;
   thumbnail: string;
+  images?: string[]; // Add this field from DummyJSON API response
 }
 
 export default function Home() {

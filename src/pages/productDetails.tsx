@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Nav from "../components/nav";
@@ -10,6 +11,7 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedImage, setSelectedImage] = useState<string>("");
 
   const { addToCart } = useCart();
   const { toggleFavorite, isFavorite } = useFavorite();
@@ -20,6 +22,7 @@ export default function ProductDetail() {
         const res = await fetch(`https://dummyjson.com/products/${id}`);
         const data = await res.json();
         setProduct(data);
+        setSelectedImage(data.thumbnail);
       } catch (error) {
         console.error("Error fetching product detail:", error);
       } finally {
@@ -63,7 +66,7 @@ export default function ProductDetail() {
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <Nav />
       <main className="container mx-auto px-4 py-8 max-w-5xl">
-        {/* back*/}
+       
         <button
           onClick={() => navigate(-1)}
           className="mb-6 flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-100 transition-colors"
@@ -72,7 +75,7 @@ export default function ProductDetail() {
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-zinc-900/80 border border-zinc-800 p-6 md:p-8 rounded-3xl">
-          {/* img*/}
+          {/* main img*/}
           <div className="relative aspect-square bg-zinc-950 rounded-2xl p-6 flex items-center justify-center overflow-hidden border border-zinc-800">
             <button
               onClick={() => toggleFavorite(product)}
@@ -95,13 +98,13 @@ export default function ProductDetail() {
               </svg>
             </button>
             <img
-              src={product.thumbnail}
+              src={selectedImage || product.thumbnail}
               alt={product.title}
               className="w-full h-full object-contain"
             />
           </div>
 
-          {/* det*/}
+         
           <div className="flex flex-col justify-between space-y-6">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-zinc-100">
@@ -124,9 +127,31 @@ export default function ProductDetail() {
                 <span>Rating: <strong className="text-zinc-200">⭐ {product.rating}</strong></span>
                 <span>Stock: <strong className="text-zinc-200">{product.stock} left</strong></span>
               </div>
+
+           
+              {product.images && product.images.length > 0 && (
+                <div className="mt-6 flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
+                  {product.images.map((imgUrl, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(imgUrl)}
+                      className={`relative w-20 h-20 shrink-0 rounded-2xl overflow-hidden bg-zinc-950 border-2 transition-all duration-200 p-1.5 ${
+                        selectedImage === imgUrl
+                          ? "border-emerald-500 ring-4 ring-emerald-500/20 opacity-100 scale-105"
+                          : "border-zinc-800 hover:border-zinc-700 opacity-60 hover:opacity-100"
+                      }`}
+                    >
+                      <img
+                        src={imgUrl}
+                        alt={`${product.title} ${index + 1}`}
+                        className="w-full h-full object-contain"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
-         
             <div className="pt-6 border-t border-zinc-800 flex items-center gap-4">
               <button
                 onClick={() => addToCart(product)}
